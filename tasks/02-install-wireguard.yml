@@ -1,0 +1,24 @@
+---
+- name: Upgrade OS software packages
+  apt:
+    update_cache: yes
+    upgrade: yes
+  become: yes
+
+- name: Add wireguard package archive
+  apt_repository:
+    repo: deb http://deb.debian.org/debian buster-backports main contrib non-free
+    state: present
+  become: yes
+
+- name: Install wireguard package
+  apt:
+    name: wireguard
+    state: present
+  become: yes
+
+- name: Install kernel header
+  apt:
+    name: linux-headers-{{ ansible_kernel }}
+    state: present
+    update_cache: yes
